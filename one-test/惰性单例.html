@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    var LazySingle = (function () {
+        var instance = null;
+        function Single() {
+            return {
+                publicMethod: function () {
+
+                },
+                publicProperty: 'property'
+            }
+        }
+
+        return function () {
+            console.log('111')
+            if(!instance){
+                console.log('222')
+                instance = Single();
+            }
+
+            return instance;
+        }
+    })()
+
+    console.log(LazySingle().publicProperty);
+    console.log(LazySingle().publicProperty);
+</script>
+
+</body>
+</html>

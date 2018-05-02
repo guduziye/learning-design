@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<script>
+    var  Book = function (title, time, type) {
+        if(this instanceof Book){
+            console.log('111')
+            this.title = title;
+            this.time = time;
+            this.type = type;
+        }else{
+            console.log('222')
+            return new Book(title, time, type);
+        }
+    }
+
+    var book = Book('js', '2018', '1');
+    var book2 = new Book('js', '2017', '1');
+</script>
+</body>
+</html>

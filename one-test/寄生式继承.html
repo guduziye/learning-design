@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    function inheritObject(obj) {
+        function F() {}
+        F.prototype = obj;
+        return new F();
+    }
+
+    var book = {
+        name: "js",
+        alikeBook: ['css', 'html']
+    };
+
+    function createBook(obj) {
+        var o = new inheritObject(obj);
+        o.getName = function () {
+            console.log(this.name);
+        };
+        return o;
+    }
+
+    var a = new createBook(book);
+    var b = new createBook(book);
+
+    a.alikeBook.push('xml');
+    b.alikeBook.push('json');
+
+    console.log(a.alikeBook)
+    console.log(b.alikeBook)
+
+
+
+
+
+//    寄生组合式继承
+    function InheritPrototype(subClass, supClass) {
+        var p = InheritPrototype(supClass.prototype);
+        p.constructor = subClass;
+        subClass.prototype = p;
+    }
+
+    function SuperClass(name) {
+        this.name = name;
+        this.colors = ['red', 'blue'];
+    }
+
+    function SubClass(name) {
+        SuperClass.call(this, name);
+    }
+
+    var aa = new SubClass('js');
+    var bb = new SubClass('css');
+
+    aa.colors.push('xx')
+    console.log(aa.colors)
+    console.log(bb.colors)
+</script>
+</body>
+</html>

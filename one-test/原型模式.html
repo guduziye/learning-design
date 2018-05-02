@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<script>
+    var LoopImages = function (imgArr, container) {
+        this.imageArray = imgArr;
+        this.container = container;
+    }
+
+    LoopImages.prototype = {
+        createImage: function () {
+            console.log('LoopImages create')
+        },
+        changeImage: function () {
+            console.log("LoopImages change image")
+        }
+    }
+
+    var SlideLoopImg = function (imgArr, container) {
+        LoopImages.call(this, imgArr, container);
+    }
+
+    SlideLoopImg.prototype = new LoopImages();
+
+    SlideLoopImg.prototype.changeImage = function () {
+        console.log("SlideLoopImg change image")
+    }
+
+    var FadeLoopImg = function (imgArr, container, arrow) {
+        LoopImages.call(this, imgArr, container);
+        this.arrow = arrow;
+    }
+
+    FadeLoopImg.prototype = new LoopImages();
+
+    FadeLoopImg.prototype.changeImage = function () {
+        console.log("FadeLoopImg change image")
+    }
+
+    var fadeImg = new FadeLoopImg(['1','2','3'], 'slide', ['left', 'right'])
+    fadeImg.createImage();
+    fadeImg.changeImage();
+</script>
+
+</body>
+</html>

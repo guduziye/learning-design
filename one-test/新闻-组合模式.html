@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+    function inheritObject(obj) {
+        function F() {}
+        F.prototype = obj;
+        return new F();
+    }
+
+    function inheritPrototype(subClass, supClass) {
+        var p = inheritObject(supClass.prototype);
+        p.constructor = subClass;
+        subClass.prototype = p;
+    }
+
+    var News = function () {
+//        this.children = [];
+        this.element = null;
+    }
+    News.prototype = {
+        init: function () {
+            throw new Error('请重写方法');
+        },
+        add: function () {
+            throw new Error('请重写方法');
+        },
+        getElement: function () {
+            throw new Error('请重写方法');
+        }
+    }
+
+    var Container = function (id, parent) {
+        News.call(this);
+        this.id = id;
+        this.parent = parent;
+        this.init();
+    }
+
+    inheritPrototype(Container, News);
+    Container.prototype.init = function () {
+        this.element = document.createElement('ul');
+        this.element.id = this.id;
+        this.element.className = 'new-container';
+    }
+    Container.prototype.add = function (child) {
+//        this.children.push(child);
+        this.element.appendChild(child.getElement());
+        return this;
+    }
+    Container.prototype.getElement = function () {
+        return this.element;
+    }
+    Container.prototype.show = function () {
+        this.parent.appendChild(this.element);
+    }
+
+
+
+    var Item = function (classname) {
+        News.call(this);
+        this.classname = classname || '';
+        this.init();
+    }
+    inheritPrototype(Item, News);
+    Item.prototype.init = function () {
+        this.element = document.createElement('li');
+        this.element.className = this.classname;
+    }
+    Item.prototype.add = function (child) {
+//        this.children.push(child);
+        this.element.appendChild(child.getElement());
+        return this;
+    }
+    Item.prototype.getElement = function () {
+        return this.element;
+    }
+
+
+
+    var NewsGroup = function (classname) {
+        News.call(this);
+        this.classname = classname || '';
+        this.init();
+    }
+    inheritPrototype(NewsGroup, News);
+    NewsGroup.prototype.init = function () {
+        this.element = document.createElement('div');
+        this.element.className = this.classname;
+    }
+    NewsGroup.prototype.add = function (child) {
+//        this.children.push(child);
+        this.element.appendChild(child.getElement());
+        return this;
+    }
+    NewsGroup.prototype.getElement = function () {
+        return this.element;
+    }
+
+
+    var ImageNews = function (url, href, classname) {
+        News.call(this);
+        this.url = url;
+        this.href = href || '#';
+        this.classname = classname || '';
+        this.init();
+    }
+    inheritPrototype(ImageNews, News);
+    NewsGroup.prototype.init = function () {
+        this.element = document.createElement('a');
+        var img = new Image();
+        img.src = this.url;
+        this.element.appendChild(img);
+        this.element.className = 'image-news'+this.classname;
+        this.element.href = this.href;
+    }
+    NewsGroup.prototype.add = function () {}
+    NewsGroup.prototype.getElement = function () {
+        return this.element;
+    }
+
+
+
+    var IconNews = function (text, href, type) {
+        News.call(this);
+        this.text = text;
+        this.href = href || '#';
+        this.type = type || 'video';
+        this.init();
+    }
+    inheritPrototype(IconNews, News);
+    IconNews.prototype.init = function () {
+        this.element = document.createElement('a');
+        this.element.innerHTML = this.text;
+        this.element.className = 'icon-'+this.type;
+        this.element.href = this.href;
+    }
+    IconNews.prototype.add = function () {}
+    IconNews.prototype.getElement = function () {
+        return this.element;
+    }
+
+
+    var news1 = new Container('news', document.body);
+    news1.add(new Item('normal').add(new IconNews('没戏', '#', 'video')))
+        .add(new Item('normal').add(new IconNews('没戏2', '#', 'video2')))
+        .add(new Item('normal').add(new IconNews('没戏3', '#', 'video3')))
+        .show();
+</script>
+
+</body>
+</html>

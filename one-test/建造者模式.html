@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<div id="test"></div>
+
+<script>
+    var Human = function (param) {
+        this.skill = param && param.skill || '保密';
+        this.hobby = param && param.hobby || '保密';
+    }
+
+    Human.prototype = {
+        getSkill: function () {
+            return this.skill;
+        },
+        getHobby: function () {
+            return this.hobby;
+        }
+    }
+
+    var Named = function (name) {
+        this.name = name;
+    }
+
+    var Work = function (work) {
+        var that = this;
+        (function (work, that) {
+            switch (work){
+                case 'code':
+                    that.work = '工程师';
+                    that.desc = '码农';
+                    break;
+                case 'UI':
+                case 'UE':
+                    that.work = '设计师';
+                    that.desc = '图片';
+                    break;
+                default:
+                    that.work = work;
+                    that.desc = '没工做';
+            }
+        })(work, that);
+    }
+
+    Work.prototype.changeWork = function (work) {
+        this.work = work;
+    }
+    Work.prototype.changeDesc = function (desc) {
+        this.desc = desc;
+    }
+
+
+    var Person = function (name, work) {
+        var _person = new Human();
+        _person.name = new Named(name);
+        _person.work = new Work(work);
+        return _person;
+    }
+
+    var person = new Person('xxx', 'code');
+    console.log(person.skill)
+    console.log(person.name.name)
+    console.log(person.work.work)
+    console.log(person.work.desc)
+    person.work.changeDesc('aaa');
+    console.log(person.work.desc)
+
+    var person2 = new Person('xxx', 'code');
+    console.log(person2.work.desc)
+</script>
+
+</body>
+</html>
