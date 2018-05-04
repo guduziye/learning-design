@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    var throttle = function () {
+        var isClear = arguments[0];
+        var fn;
+        if(typeof isClear === 'boolean'){
+            fn = arguments[1];
+            fn.__throttleId && clearTimeout(fn.__throttleId);
+        }else{
+            fn = isClear;
+            var param = arguments[1];
+            var p = extend({
+                context: null,
+                args: [],
+                time: 300
+            }, param);
+
+            arguments.callee(true, fn);
+            fn.__throttleId = setTimeout(function () {
+                fn.apply(p.context, p.args);
+            }, p.time);
+        }
+    }
+</script>
+
+</body>
+</html>

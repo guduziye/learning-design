@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<script>
+    var a = {
+        common: {},
+        client: {
+            user: {
+                username: '夜雨',
+                uid: '123'
+            }
+        },
+        server: {}
+    }
+
+    var Getter = function (obj, key) {
+        if(!obj){
+            return undefined;
+        }
+
+        var result = obj;
+        key = key.split('.');
+        for(var i=0,len=key.length; i<len; i++){
+            if(result[key[i]] !== 'undefined'){
+                result = result[key[i]];
+            }else{
+                return undefined;
+            }
+        }
+
+        return result;
+    }
+
+    console.log(Getter(a, 'client.user.username'))
+    console.log(Getter(a, 'client.user.use'))
+
+    var Setter = function (obj, key, value) {
+        if(!obj){
+            return false;
+        }
+
+        var result = obj;
+        key = key.split('.');
+        for(var i=0,len=key.length; i<len; i++){
+            if(result[key[i]] !== 'undefined'){
+                result[key[i]] = {};
+            }
+
+            if(!(result[key[i]] instanceof Object)){
+                throw new Error('data.' + key.splice(0, i+1).join('.') + 'is not Object');
+                return false;
+            }
+
+            result = result[key[i]];
+        }
+
+        return result[key[i]] = value;
+    }
+</script>
+
+</body>
+</html>

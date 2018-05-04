@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    var MarryState = function () {
+        var _currentState = {};
+        var states = {
+            jump: function () {
+                console.log('跳');
+            },
+            move: function () {
+                console.log('走');
+            },
+            shoot: function () {
+                console.log('打');
+            },
+            squat: function () {
+                console.log('蹲');
+            },
+        }
+        var Action = {
+            changeState: function () {
+                var arg = arguments;
+                _currentState = {};
+                if(arg.length){
+                    for(var state of arg){
+                        _currentState[state] = true;
+                    }
+                }
+                return this;
+            },
+            goes: function () {
+                console.log('触发动作');
+                for(var state in _currentState){
+                    states[state] && states[state]();
+                }
+                return this;
+            }
+        }
+        return {
+            change: Action.changeState,
+            goes: Action.goes
+        }
+    }
+
+    var marry = new MarryState();
+    marry.change('jump', 'shoot')
+        .goes()
+        .goes()
+        .change('shoot')
+        .goes();
+</script>
+
+</body>
+</html>
