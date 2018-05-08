@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+
+<script>
+    function curry(fn) {
+        var Slice = [].slice;
+        console.log('----------')
+        console.log(arguments)
+        console.log('----------')
+        var args = Slice.call(arguments, 1);
+
+        return function () {
+            console.log('=====')
+            console.log(arguments)
+            console.log('======')
+            var addArgs = Slice.call(arguments);
+            var allArgs = args.concat(addArgs);
+
+            return fn.apply(null, allArgs);
+        }
+    }
+
+    function add(num1, num2) {
+        return num1 + num2;
+    }
+
+    function add5(num) {
+        return add(5, num);
+    }
+
+    console.log(add(1,2))
+    console.log(add5(6))
+
+    var add5 = curry(add, 5)
+    console.log(add5(7))
+</script>
+
+</body>
+</html>
